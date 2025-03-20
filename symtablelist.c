@@ -18,10 +18,10 @@
 /* Each item is stored in a SymTableNode to form a linked list */
 struct SymTableNode{
    /* Key of each node */
-   double dKey;
+   void* dKey;
 
    /* Value of each node */
-   double dValue;
+   void* dValue;
 
    /* The address of the next StackNode. */
    struct StackNode *pNextNode;
@@ -34,18 +34,39 @@ struct SymTableNode{
 struct SymTable{
     /* First node of the list */
     struct SymTableNode *pFirstNode;
+    
 };
 
 /*--------------------------------------------------------------------*/
 
 SymTable_T SymTable_new(void){
+    SymTable_T oSymTable;
 
+    oSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
+    if (oSymTable == NULL)
+       return NULL;
+ 
+    oSymTable->pFirstNode = NULL;
+    return oSymTable;
 }
 
 /*--------------------------------------------------------------------*/
 
 void SymTable_free(SymTable_T oSymTable){
-
+    struct SymTableNode *pCurrentNode;
+    struct SymTableNode *pNextNode;
+ 
+    assert(oSymTable != NULL);
+ 
+    for (pCurrentNode = oSymTable->psFirstNode;
+         pCurrentNode != NULL;
+         pCurrentNode = pNextNode)
+    {
+       pNextNode = pCurrentNode->psNextNode;
+       free(pCurrentNode);
+    }
+ 
+    free(oSymTable);
 }
 
 /*--------------------------------------------------------------------*/
