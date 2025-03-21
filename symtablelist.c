@@ -37,6 +37,8 @@ struct SymTableNode{
 struct SymTable{
     /* First node of the list */
     struct SymTableNode *pFirstNode;
+
+    /* size of the entire symtable */
     size_t size;
 };
 
