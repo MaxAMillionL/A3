@@ -1,5 +1,11 @@
 all: testsymtablelist testsymtablehash
 
+clobber: clean
+	rm -f *~ \#*\#
+	
+clean:
+	rm -f testsymtablelist testsymtablehash *.o
+
 testsymtablelist: symtablelist.o testsymtablelist.o
 	gcc217 symtablelist.o testsymtablelist.o -o testsymtablelist
 
