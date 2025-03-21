@@ -163,7 +163,12 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
             pOldValue = pCurrentNode->pValue;
-            pPrevNode->pNextNode = pCurrentNode->pNextNode;
+            if(pPrevNode == NULL){
+                oSymTable->pFirstNode = pCurrentNode->pNextNode;
+            }
+            else{
+                pPrevNode->pNextNode = pCurrentNode->pNextNode;
+            }
             free(pCurrentNode);
             oSymTable->size--;
             return (void*) pOldValue;
