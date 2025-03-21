@@ -20,7 +20,7 @@
 /* Each item is stored in a SymTableNode to form a linked list */
 struct SymTableNode{
    /* Key of each node */
-   const void* pKey;
+   const char* pKey;
 
    /* Value of each node */
    const void* pValue;
