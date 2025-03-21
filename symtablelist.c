@@ -18,10 +18,10 @@
 /* Each item is stored in a SymTableNode to form a linked list */
 struct SymTableNode{
    /* Key of each node */
-   void* pKey;
+   const void* pKey;
 
    /* Value of each node */
-   void* pValue;
+   const void* pValue;
 
    /* The address of the next SymTableNode. */
    struct SymTableNode *pNextNode;
@@ -75,7 +75,7 @@ void SymTable_free(SymTable_T oSymTable){
 size_t SymTable_getLength(SymTable_T oSymTable){
     struct SymTableNode *pCurrentNode;
     struct SymTableNode *pNextNode;
-    size_t uLength;
+    size_t uLength = 0;
 
     for (pCurrentNode = oSymTable->pFirstNode;
         pCurrentNode != NULL;
@@ -119,11 +119,14 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     while(pCurrentNode != NULL && !found){
         if(pCurrentNode->pKey == pcKey){
             found = 1;
+            const void* pOldValue = pCurrentNode->pValue;
             pCurrentNode->pValue = pvValue;
+            return (void*) pOldValue;
         }
         pCurrentNode = pNextNode;
         pNextNode = pCurrentNode->pNextNode;
     }
+    return NULL;
 }
 
 /*--------------------------------------------------------------------*/
@@ -147,13 +150,13 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 /*--------------------------------------------------------------------*/
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
-
+    return 0;
 }
 
 /*--------------------------------------------------------------------*/
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
-
+    return 0;
 }
 
 /*--------------------------------------------------------------------*/
@@ -161,5 +164,5 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 void SymTable_map(SymTable_T oSymTable, void (*pfApply)
     (const char *pcKey, void *pvValue, void *pvExtra), 
     const void *pvExtra){
-    
+        
 }
