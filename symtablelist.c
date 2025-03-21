@@ -75,19 +75,7 @@ void SymTable_free(SymTable_T oSymTable){
 /*--------------------------------------------------------------------*/
 
 size_t SymTable_getLength(SymTable_T oSymTable){
-    struct SymTableNode *pCurrentNode;
-    struct SymTableNode *pNextNode;
-    size_t uLength = 0;
-
-    for (pCurrentNode = oSymTable->pFirstNode;
-        pCurrentNode != NULL;
-        pCurrentNode = pNextNode)
-   {
-      pNextNode = pCurrentNode->pNextNode;
-      uLength++;
-   }
-
-   return uLength;
+    return oSymTable->size;
 }
 
 /*--------------------------------------------------------------------*/
@@ -113,11 +101,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
     struct SymTableNode *pCurrentNode;
-    struct SymTableNode *pNextNode;
     int found = 0;
 
     pCurrentNode = oSymTable->pFirstNode;
-    pNextNode = pCurrentNode->pNextNode;
     while(pCurrentNode != NULL && !found){
         if(pCurrentNode->pKey == pcKey){
             found = 1;
@@ -125,8 +111,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
             pCurrentNode->pValue = pvValue;
             return (void*) pOldValue;
         }
-        pCurrentNode = pNextNode;
-        pNextNode = pCurrentNode->pNextNode;
+        pCurrentNode = pCurrentNode->pNextNode;
     }
     return NULL;
 }
@@ -135,16 +120,13 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pCurrentNode;
-    struct SymTableNode *pNextNode;
 
     pCurrentNode = oSymTable->pFirstNode;
-    pNextNode = pCurrentNode->pNextNode;
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
             return 1;
         }
-        pCurrentNode = pNextNode;
-        pNextNode = pCurrentNode->pNextNode;
+        pCurrentNode = pCurrentNode->pNextNode;
     }
     return 0;
 }
