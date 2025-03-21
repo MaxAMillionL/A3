@@ -18,13 +18,13 @@
 /* Each item is stored in a SymTableNode to form a linked list */
 struct SymTableNode{
    /* Key of each node */
-   void* dKey;
+   void* pKey;
 
    /* Value of each node */
-   void* dValue;
+   void* pValue;
 
-   /* The address of the next StackNode. */
-   struct StackNode *pNextNode;
+   /* The address of the next SymTableNode. */
+   struct SymTableNode *pNextNode;
 };
 
 /*--------------------------------------------------------------------*/
@@ -34,7 +34,7 @@ struct SymTableNode{
 struct SymTable{
     /* First node of the list */
     struct SymTableNode *pFirstNode;
-    
+    size_t size;
 };
 
 /*--------------------------------------------------------------------*/
@@ -47,6 +47,7 @@ SymTable_T SymTable_new(void){
        return NULL;
  
     oSymTable->pFirstNode = NULL;
+    oSymTable->size = 0;
     return oSymTable;
 }
 
@@ -58,41 +59,89 @@ void SymTable_free(SymTable_T oSymTable){
  
     assert(oSymTable != NULL);
  
-    for (pCurrentNode = oSymTable->psFirstNode;
+    for (pCurrentNode = oSymTable->pFirstNode;
          pCurrentNode != NULL;
          pCurrentNode = pNextNode)
     {
-       pNextNode = pCurrentNode->psNextNode;
+       pNextNode = pCurrentNode->pNextNode;
        free(pCurrentNode);
     }
- 
+
     free(oSymTable);
 }
 
 /*--------------------------------------------------------------------*/
 
 size_t SymTable_getLength(SymTable_T oSymTable){
+    struct SymTableNode *pCurrentNode;
+    struct SymTableNode *pNextNode;
+    size_t uLength;
 
+    for (pCurrentNode = oSymTable->pFirstNode;
+        pCurrentNode != NULL;
+        pCurrentNode = pNextNode)
+   {
+      pNextNode = pCurrentNode->pNextNode;
+      uLength++;
+   }
+
+   return uLength;
 }
 
 /*--------------------------------------------------------------------*/
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
-    
+    struct SymTableNode *pNewNode;
+
+    pNewNode = (struct SymTableNode*)malloc(sizeof(struct SymTableNode));
+    if(pNewNode == NULL){
+        return 0;
+    }
+
+    pNewNode->pKey = pcKey;
+    pNewNode->pValue = pvValue;
+    pNewNode->pNextNode = oSymTable->pFirstNode;
+    oSymTable->pFirstNode = pNewNode;
+    return 1;
 }
 
 /*--------------------------------------------------------------------*/
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
-    
+    struct SymTableNode *pCurrentNode;
+    struct SymTableNode *pNextNode;
+    int found = 0;
+
+    pCurrentNode = oSymTable->pFirstNode;
+    pNextNode = pCurrentNode->pNextNode;
+    while(pCurrentNode != NULL && !found){
+        if(pCurrentNode->pKey == pcKey){
+            found = 1;
+            pCurrentNode->pValue = pvValue;
+        }
+        pCurrentNode = pNextNode;
+        pNextNode = pCurrentNode->pNextNode;
+    }
 }
 
 /*--------------------------------------------------------------------*/
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
+    struct SymTableNode *pCurrentNode;
+    struct SymTableNode *pNextNode;
 
+    pCurrentNode = oSymTable->pFirstNode;
+    pNextNode = pCurrentNode->pNextNode;
+    while(pCurrentNode != NULL){
+        if(pCurrentNode->pKey == pcKey){
+            return 1;
+        }
+        pCurrentNode = pNextNode;
+        pNextNode = pCurrentNode->pNextNode;
+    }
+    return 0;
 }
 
 /*--------------------------------------------------------------------*/
