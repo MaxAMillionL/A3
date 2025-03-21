@@ -110,7 +110,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         return 0;
     }
 
-    pNewNode->pKey = pcKey;
+    pNewNode->pKey = pKey;
     pNewNode->pValue = pvValue;
     pNewNode->pNextNode = oSymTable->pFirstNode;
     oSymTable->pFirstNode = pNewNode;
