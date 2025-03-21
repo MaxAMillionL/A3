@@ -141,7 +141,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     strcpy((char*)pKey, pcKey);
 
     while(pCurrentNode != NULL && !found){
-        if(pCurrentNode->pKey == pcKey){
+        if(pCurrentNode->pKey == pKey){
             found = 1;
             pOldValue = pCurrentNode->pValue;
             pCurrentNode->pValue = pvValue;
@@ -171,7 +171,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     strcpy((char*)pKey, pcKey);
 
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pcKey){
+        if(pCurrentNode->pKey == pKey){
             return 1;
         }
         pCurrentNode = pCurrentNode->pNextNode;
@@ -198,7 +198,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     strcpy((char*)pKey, pcKey);
 
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pcKey){
+        if(pCurrentNode->pKey == pKey){
             return (void*)(pCurrentNode->pValue);
         }
         pCurrentNode = pCurrentNode->pNextNode;
@@ -228,7 +228,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     strcpy((char*)pKey, pcKey);
 
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pcKey){
+        if(pCurrentNode->pKey == pKey){
             pOldValue = pCurrentNode->pValue;
             if(pPrevNode == NULL){
                 oSymTable->pFirstNode = pCurrentNode->pNextNode;
