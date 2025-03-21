@@ -69,7 +69,7 @@ void SymTable_free(SymTable_T oSymTable){
          pCurrentNode = pNextNode)
     {
        pNextNode = pCurrentNode->pNextNode;
-       free((const*)pCurrentNode->pKey);
+       free((void*)pCurrentNode->pKey);
        free(pCurrentNode);
     }
 
