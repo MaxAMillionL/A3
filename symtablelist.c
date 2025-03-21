@@ -140,13 +140,38 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 /*--------------------------------------------------------------------*/
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
-    return 0;
+    struct SymTableNode *pCurrentNode;
+
+    pCurrentNode = oSymTable->pFirstNode;
+    while(pCurrentNode != NULL){
+        if(pCurrentNode->pKey == pcKey){
+            return (void*)(pCurrentNode->pValue);
+        }
+        pCurrentNode = pCurrentNode->pNextNode;
+    }
+    return NULL;
 }
 
 /*--------------------------------------------------------------------*/
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
-    return 0;
+    struct SymTableNode *pPrevNode;
+    struct SymTableNode *pCurrentNode;
+    const void* pOldValue;
+
+    pCurrentNode = oSymTable->pFirstNode;
+    while(pCurrentNode != NULL){
+        if(pCurrentNode->pKey == pcKey){
+            pOldValue = pCurrentNode->pValue;
+            pPrevNode->pNextNode = pCurrentNode->pNextNode;
+            free(pCurrentNode);
+            oSymTable->size--;
+            return (void*) pOldValue;
+        }
+        pPrevNode = pCurrentNode;
+        pCurrentNode = pCurrentNode->pNextNode;
+    }
+    return NULL;
 }
 
 /*--------------------------------------------------------------------*/
