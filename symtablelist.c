@@ -123,15 +123,13 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     const void *pvValue){
     struct SymTableNode *pCurrentNode;
     const void* pOldValue;
-    int found = 0;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
-    while(pCurrentNode != NULL && !found){
-        if(pCurrentNode->pKey == pcKey){
-            found = 1;
+    while(pCurrentNode != NULL){
+        if(strcmp(pCurrentNode->pKey, pcKey) == 0){
             pOldValue = pCurrentNode->pValue;
             pCurrentNode->pValue = pvValue;
             return (void*) pOldValue;
