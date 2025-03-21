@@ -124,22 +124,13 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     struct SymTableNode *pCurrentNode;
     const void* pOldValue;
     int found = 0;
-    char *pKey;
-    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    strLength = strlen(pcKey) + 1;
-    pKey = (char*) malloc(strLength * sizeof(char));
-    if(pKey == NULL){
-        return 0;
-    }
-    strcpy(pKey, pcKey);
-
     pCurrentNode = oSymTable->pFirstNode;
     while(pCurrentNode != NULL && !found){
-        if(pCurrentNode->pKey == pKey){
+        if(pCurrentNode->pKey == pcKey){
             found = 1;
             pOldValue = pCurrentNode->pValue;
             pCurrentNode->pValue = pvValue;
@@ -169,7 +160,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
     pCurrentNode = oSymTable->pFirstNode;
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pcKey){
+        if(pCurrentNode->pKey == pKey){
             return 1;
         }
         pCurrentNode = pCurrentNode->pNextNode;
