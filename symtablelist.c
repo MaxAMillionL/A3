@@ -116,7 +116,6 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
-    assert(pvValue != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
     while(pCurrentNode != NULL && !found){
