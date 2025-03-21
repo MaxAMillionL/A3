@@ -89,10 +89,13 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         return 0;
     }
 
+    if(SymTable_contains(pcKey))
+
     pNewNode->pKey = pcKey;
     pNewNode->pValue = pvValue;
     pNewNode->pNextNode = oSymTable->pFirstNode;
     oSymTable->pFirstNode = pNewNode;
+    oSymTable->size++;
     return 1;
 }
 
