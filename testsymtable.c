@@ -178,6 +178,7 @@ static void testBasics(void)
    /* Test SymTable_get(). */
 
    pcValue = (char*)SymTable_get(oSymTable, acJeter);
+   printf("%s", *pcValue);
    ASSURE(pcValue == acShortstop);
 
    pcValue = (char*)SymTable_get(oSymTable, acMantle);
