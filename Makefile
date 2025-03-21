@@ -14,6 +14,8 @@ symtablehash.o: symtablehash.c symtable.h
 	
 testsymtablelist.o: testsymtable.c symtable.h
 	gcc217 -c testsymtable.c
+	mv testsymtable.o testsymtablelist.o
 
 testsymtablehash.o: testsymtable.c symtable.h
 	gcc217 -c testsymtable.c
+	mv testsymtable.o testsymtablehash.o
