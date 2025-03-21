@@ -86,7 +86,7 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
     struct SymTableNode *pNewNode;
-    const char *pKey;
+    char *pKey;
     size_t strLength;
 
     assert(oSymTable != NULL);
@@ -102,7 +102,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if(pKey == NULL){
         return 0;
     }
-    strcpy((char*) pKey, pcKey);
+    strcpy(pKey, pcKey);
 
 
 
