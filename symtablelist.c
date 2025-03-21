@@ -21,7 +21,7 @@
 /* Each item is stored in a SymTableNode to form a linked list */
 struct SymTableNode{
    /* Key of each node */
-   const cahr* pKey;
+   const char* pKey;
 
    /* Value of each node */
    const void* pValue;
@@ -126,19 +126,11 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     struct SymTableNode *pCurrentNode;
     const void* pOldValue;
     int found = 0;
-    const char *pKey;
-    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
-    strLength = strlen(pcKey) + 1;
-    pKey = (char*) malloc(strLength * sizeof(char));
-    if(pKey == NULL){
-        return 0;
-    }
-    strcpy((char*)pKey, pcKey);
 
     while(pCurrentNode != NULL && !found){
         if(pCurrentNode->pKey == pcKey){
@@ -156,19 +148,13 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pCurrentNode;
-    const char *pKey;
-    size_t strLength;
+
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
-    strLength = strlen(pcKey) + 1;
-    pKey = (char*) malloc(strLength * sizeof(char));
-    if(pKey == NULL){
-        return 0;
-    }
-    strcpy((char*)pKey, pcKey);
+
 
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
@@ -183,19 +169,13 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pCurrentNode;
-    const char *pKey;
-    size_t strLength;
+
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
-    strLength = strlen(pcKey) + 1;
-    pKey = (char*) malloc(strLength * sizeof(char));
-    if(pKey == NULL){
-        return 0;
-    }
-    strcpy((char*)pKey, pcKey);
+
 
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
@@ -212,20 +192,13 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pPrevNode;
     struct SymTableNode *pCurrentNode;
     const void* pOldValue;
-    const char *pKey;
-    size_t strLength;
+
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
-    pPrevNode = NULL;
-    strLength = strlen(pcKey) + 1;
-    pKey = (char*) malloc(strLength * sizeof(char));
-    if(pKey == NULL){
-        return 0;
-    }
-    strcpy((char*)pKey, pcKey);
+
 
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
