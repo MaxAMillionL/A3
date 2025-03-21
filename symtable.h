@@ -39,7 +39,7 @@ size_t SymTable_getLength(SymTable_T oSymTable);
 
 /*--------------------------------------------------------------------*/
 
-/* Adds a new elemenr to parameter symtable with value pvValue and key 
+/* Adds a new element to parameter oSymTable with value pvValue and key 
    pcKey. Returns 1 for success or 0 for failure */
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue);
