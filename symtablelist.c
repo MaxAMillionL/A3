@@ -89,7 +89,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         return 0;
     }
 
-    if(!SymTable_contains(oSymTable, pcKey)){
+    if(SymTable_contains(oSymTable, pcKey)){
         return 0;
     }
 
