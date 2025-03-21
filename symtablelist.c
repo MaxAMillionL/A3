@@ -87,8 +87,8 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
     struct SymTableNode *pNewNode;
-    const char *pKey;
-    size_t strLength;
+    // const char *pKey;
+    // size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -100,18 +100,18 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         return 0;
     }
 
-    strLength = strlen(pcKey) + 1;
-    pKey = (char*) malloc(strLength * sizeof(char));
-    if(pKey == NULL){
-        return 0;
-    }
-    strcpy((char*)pKey, pcKey);
+    // strLength = strlen(pcKey) + 1;
+    // pKey = (char*) malloc(strLength * sizeof(char));
+    // if(pKey == NULL){
+    //     return 0;
+    // }
+    // strcpy((char*)pKey, pcKey);
 
-    if(SymTable_contains(oSymTable, pcKey)){
-        return 0;
-    }
+    // if(SymTable_contains(oSymTable, pcKey)){
+    //     return 0;
+    // }
 
-    pNewNode->pKey = pKey;
+    pNewNode->pKey = pcKey;
     pNewNode->pValue = pvValue;
     pNewNode->pNextNode = oSymTable->pFirstNode;
     oSymTable->pFirstNode = pNewNode;
