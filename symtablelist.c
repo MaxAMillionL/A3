@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -85,6 +86,8 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
     struct SymTableNode *pNewNode;
+    const char *pKey;
+    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -93,6 +96,15 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if(pNewNode == NULL){
         return 0;
     }
+
+    strLength = strlen(pcKey) + 1;
+    pKey = (char*) malloc(strLength * sizeof(char));
+    if(pKey == NULL){
+        return 0;
+    }
+    strcpy((char*) pKey, pcKey);
+
+
 
     if(SymTable_contains(oSymTable, pcKey)){
         return 0;
@@ -209,7 +221,7 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
 
     pCurrentNode = oSymTable->pFirstNode;
     while(pCurrentNode != NULL){
-        (*pfApply)(pCurrentNode->pKey, pCurrentNode->pValue, pvExtra);
+        (*pfApply)(pCurrentNode->pKey, (void*)pCurrentNode->pValue, (void*) pvExtra);
         pCurrentNode = pCurrentNode->pNextNode;
     }
 }
