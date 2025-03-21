@@ -160,7 +160,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
     pCurrentNode = oSymTable->pFirstNode;
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pKey){
+        if(strcmp(pCurrentNode->pKey, pKey) == 0){
             return 1;
         }
         pCurrentNode = pCurrentNode->pNextNode;
