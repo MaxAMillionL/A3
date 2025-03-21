@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -66,6 +67,7 @@ void SymTable_free(SymTable_T oSymTable){
          pCurrentNode = pNextNode)
     {
        pNextNode = pCurrentNode->pNextNode;
+       free(pCurrentNode->pKey);
        free(pCurrentNode);
     }
 
@@ -85,20 +87,31 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
     struct SymTableNode *pNewNode;
+    const char *pKey;
+    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    pNewNode = (struct SymTableNode*)malloc(sizeof(struct SymTableNode));
+    pNewNode = (struct SymTableNode*)malloc(sizeof(struct 
+    SymTableNode));
+
     if(pNewNode == NULL){
         return 0;
     }
+
+    strLength = strlen(*(pcKey)) + 1;
+    pKey = (char*) malloc(strLength * sizeof(char));
+    if(pKey == NULL){
+        return 0;
+    }
+    strcpy(pKey, pcKey);
 
     if(SymTable_contains(oSymTable, pcKey)){
         return 0;
     }
 
-    pNewNode->pKey = pcKey;
+    pNewNode->pKey = pKey;
     pNewNode->pValue = pvValue;
     pNewNode->pNextNode = oSymTable->pFirstNode;
     oSymTable->pFirstNode = pNewNode;
@@ -113,11 +126,20 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     struct SymTableNode *pCurrentNode;
     const void* pOldValue;
     int found = 0;
+    const char *pKey;
+    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
+    strLength = strlen(*(pcKey)) + 1;
+    pKey = (char*) malloc(strLength * sizeof(char));
+    if(pKey == NULL){
+        return 0;
+    }
+    strcpy(pKey, pcKey);
+
     while(pCurrentNode != NULL && !found){
         if(pCurrentNode->pKey == pcKey){
             found = 1;
@@ -134,11 +156,20 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pCurrentNode;
+    const char *pKey;
+    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
+    strLength = strlen(*(pcKey)) + 1;
+    pKey = (char*) malloc(strLength * sizeof(char));
+    if(pKey == NULL){
+        return 0;
+    }
+    strcpy(pKey, pcKey);
+
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
             return 1;
@@ -152,11 +183,20 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pCurrentNode;
+    const char *pKey;
+    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
+    strLength = strlen(*(pcKey)) + 1;
+    pKey = (char*) malloc(strLength * sizeof(char));
+    if(pKey == NULL){
+        return 0;
+    }
+    strcpy(pKey, pcKey);
+
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
             return (void*)(pCurrentNode->pValue);
@@ -172,12 +212,21 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     struct SymTableNode *pPrevNode;
     struct SymTableNode *pCurrentNode;
     const void* pOldValue;
+    const char *pKey;
+    size_t strLength;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     pCurrentNode = oSymTable->pFirstNode;
     pPrevNode = NULL;
+    strLength = strlen(*(pcKey)) + 1;
+    pKey = (char*) malloc(strLength * sizeof(char));
+    if(pKey == NULL){
+        return 0;
+    }
+    strcpy(pKey, pcKey);
+
     while(pCurrentNode != NULL){
         if(pCurrentNode->pKey == pcKey){
             pOldValue = pCurrentNode->pValue;
