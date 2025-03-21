@@ -176,7 +176,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 
     pCurrentNode = oSymTable->pFirstNode;
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pcKey){
+        if(strcmp(pCurrentNode->pKey, pcKey) == 0){
             return (void*)(pCurrentNode->pValue);
         }
         pCurrentNode = pCurrentNode->pNextNode;
@@ -197,7 +197,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     pCurrentNode = oSymTable->pFirstNode;
     pPrevNode = NULL;
     while(pCurrentNode != NULL){
-        if(pCurrentNode->pKey == pcKey){
+        if(strcmp(pCurrentNode->pKey, pcKey) == 0){
             pOldValue = pCurrentNode->pValue;
             if(pPrevNode == NULL){
                 oSymTable->pFirstNode = pCurrentNode->pNextNode;
