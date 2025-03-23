@@ -109,32 +109,29 @@ void SymTable_free(SymTable_T oSymTable){
     struct SymTableBucket *pCurrentBucket;
     struct SymTableNode *pCurrentNode;
     struct SymTableNode *pNextNode;
-    size_t counter;
  
     assert(oSymTable != NULL);
 
-    counter = 0;
     pCurrentBucket = oSymTable->pFirstBucket;
-    while(counter < oSymTable->limit){
+    for(pCurrentBucket = oSymTable->pFirstBucket;
+        (size_t)(pCurrentBucket - oSymTable->pFirstBucket) 
+        <= oSymTable->limit;
+        pCurrentBucket++)
+    {
         /* Free the linked list associated with the bucket*/
         if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
                 pCurrentNode != NULL;
                 pCurrentNode = pNextNode)
             {
-                printf("Node: %zu\n", (size_t)pCurrentNode);
-                fflush(stdout);
                 pNextNode = pCurrentNode->pNextNode;
                 free(pCurrentNode);
             }
         }
-
-        pCurrentBucket++;
-        counter++;
     }
+
     /* Free buckets */
     free(oSymTable->pFirstBucket);
-  
         
     /* Free table */
     free(oSymTable);
@@ -344,6 +341,7 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
     (const char *pcKey, void *pvValue, void *pvExtra), 
     const void *pvExtra){
     struct SymTableNode *pCurrentNode;
+    struct SymTableNode *pNextNode;
     struct SymTableBucket *pCurrentBucket;
 
     assert(oSymTable != NULL);
@@ -358,10 +356,10 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
         if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
                 pCurrentNode != NULL;
-                pCurrentNode++)
+                pCurrentNode = pNextNode)
             {
                 (*pfApply)(pCurrentNode->pKey, (void*)pCurrentNode->pValue, (void*) pvExtra);
-                pCurrentNode = pCurrentNode->pNextNode;
+                pNextNode = pCurrentNode->pNextNode;
             }
         }
     }
