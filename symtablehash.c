@@ -93,7 +93,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     /* Edge case for max size */
     if(oldLimit == sizes[sizeof(sizes)/sizeof(sizes[0])]){
-        return oSymTable->pFirstBucket;
+        return oSymTable;
     }
 
     /* find new limit */
@@ -201,7 +201,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     struct SymTableNode *pOldNode;
     struct SymTableBucket *pbCurrent;
     SymTable_T newSymTable;
-    int maxSize;
+    size_t maxSize;
     
 
     assert(oSymTable != NULL);
