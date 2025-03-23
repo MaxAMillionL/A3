@@ -84,11 +84,9 @@ static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
     SymTable_T newSymTable;
     struct SymTableBucket* oldTableCurrentBucket;
     struct SymTableBucket* newTableCurrentBucket;
+    size_t sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
 
     assert(oSymTable != NULL);
-    
-    int sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
-
     
     oldLimit = oSymTable->limit;
 
@@ -110,9 +108,10 @@ static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
  
     /* newLimit elements for a new hash table */
     newSymTable->pFirstBucket = calloc(newLimit, sizeof(struct SymTableBucket));
-    if (newSymTable->pFirstBucket == NULL)
+    if (newSymTable->pFirstBucket == NULL){
         free(newSymTable);
         return NULL;
+    }
 
     newTableCurrentBucket = newSymTable->pFirstBucket;
     oldTableCurrentBucket = oSymTable->pFirstBucket;
@@ -194,7 +193,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     char *pKey;
     size_t bucketNumber;
     size_t strLength;
-    struct SymTableNode *pBucket;
     struct SymTableNode *pNewNode;
     struct SymTableNode *pOldNode;
     struct SymTableBucket *pbCurrent;
