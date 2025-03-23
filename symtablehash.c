@@ -74,11 +74,12 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 
 /* Resize the list of buckets in oSymTable to the next iteration. */
 
-static struct SymTableBucket* SymTable_rezize(SymTable_T oSymTable)
+static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
 {
     assert(oSymTable != NULL);
     
     int sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
+    
     return oSymTable->pFirstBucket;
 }
    
@@ -111,7 +112,8 @@ void SymTable_free(SymTable_T oSymTable){
     assert(oSymTable != NULL);
 
     for(pCurrentBucket = oSymTable->pFirstBucket;
-        pCurrentBucket - oSymTable->pFirstBucket <= oSymTable->limit;
+        (size_t)(pCurrentBucket - oSymTable->pFirstBucket) 
+        <= oSymTable->limit;
         pCurrentBucket++)
     {
         /* Free the linked list associated with the bucket*/
@@ -177,7 +179,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     /* Find position of the bucket assocaited with the hash */
     bucketNumber = SymTable_hash(pKey, oSymTable->limit);
     pbCurrent = oSymTable->pFirstBucket;
-    while(pbCurrent - oSymTable->pFirstBucket != bucketNumber){
+    while((size_t)(pbCurrent - oSymTable->pFirstBucket) != bucketNumber){
         pbCurrent++;
     }
 
