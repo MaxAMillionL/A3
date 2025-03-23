@@ -125,13 +125,11 @@ void SymTable_free(SymTable_T oSymTable){
             {
                 printf("Node: %zu\n", (size_t)pCurrentNode);
                 fflush(stdout);
-                free(pCurrentBucket);
-                printf("success\n");
-                fflush(stdout);
-                
                 pNextNode = pCurrentNode->pNextNode;
                 free((void*)pCurrentNode->pKey);
                 free(pCurrentNode);
+                printf("success\n");
+                fflush(stdout);
 
                 
             }
