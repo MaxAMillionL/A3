@@ -221,8 +221,6 @@ static void testBasics(void)
    /* Insert key with NULL value */
    iSuccessful = SymTable_put(oSymTable, acBrown, NULL);
    ASSURE(iSuccessful);
-   printf("Null works:\n");
-   fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 5);
@@ -233,13 +231,12 @@ static void testBasics(void)
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 5);
-   printf("Null super works:\n");
-   fflush(stdout);
- 
 
    /* Test SymTable_free(). */
 
    SymTable_free(oSymTable);
+   printf("Free works:\n");
+   fflush(stdout);
 }
 
 /*--------------------------------------------------------------------*/
