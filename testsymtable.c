@@ -140,18 +140,12 @@ static void testBasics(void)
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
 
-   printf("put and length works");
-   fflush(stdout);
-
    /* Try to insert duplicate to first key entered */
    iSuccessful = SymTable_put(oSymTable, acJeter, acCenterField);
    ASSURE(! iSuccessful);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
-
-   printf("duplicate works");
-   fflush(stdout);
 
    /* Try to insert duplicate to last key entered */
    iSuccessful = SymTable_put(oSymTable, acRuth, acCenterField);
