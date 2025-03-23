@@ -109,15 +109,13 @@ void SymTable_free(SymTable_T oSymTable){
     struct SymTableBucket *pCurrentBucket;
     struct SymTableNode *pCurrentNode;
     struct SymTableNode *pNextNode;
+    size_t counter;
  
     assert(oSymTable != NULL);
 
+    counter = 0;
     pCurrentBucket = oSymTable->pFirstBucket;
-    for(pCurrentBucket = oSymTable->pFirstBucket;
-        (size_t)(pCurrentBucket - oSymTable->pFirstBucket) 
-        <= oSymTable->limit;
-        pCurrentBucket++)
-    {
+    while(counter < oSymTable->limit){
         /* Free the linked list associated with the bucket*/
         if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
@@ -128,8 +126,9 @@ void SymTable_free(SymTable_T oSymTable){
                 free(pCurrentNode);
             }
         }
+        pCurrentBucket++;
+        counter++;
     }
-
     /* Free buckets */
     free(oSymTable->pFirstBucket);
         
@@ -343,15 +342,14 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
     struct SymTableNode *pCurrentNode;
     struct SymTableNode *pNextNode;
     struct SymTableBucket *pCurrentBucket;
+    size_t counter;
 
     assert(oSymTable != NULL);
     assert(pfApply != NULL);
 
-    for(pCurrentBucket = oSymTable->pFirstBucket;
-        (size_t)(pCurrentBucket - oSymTable->pFirstBucket) 
-        <= oSymTable->limit;
-        pCurrentBucket++)
-    {
+    pCurrentBucket = oSymTable->pFirstBucket;
+    counter = 0;
+    while(counter < oSymTable->limit){
         /* Free the linked list associated with the bucket*/
         if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
@@ -362,5 +360,7 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
                 pNextNode = pCurrentNode->pNextNode;
             }
         }
+        counter++;
+        pCurrentBucket++;
     }
 }
