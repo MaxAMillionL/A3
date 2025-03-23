@@ -77,11 +77,24 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 
 static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
 {
+    size_t limit;
+    int index;
+    SymTable_T newSymTable;
+
     assert(oSymTable != NULL);
     
     int sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
-    
-    return oSymTable->pFirstBucket;
+
+    limit = oSymTable->limit;
+    while(limit != sizes[index]){
+        index++;
+    }
+
+    newSymTable = (SymTable_T)realloc(oSymTable, sizes[index]);
+    if(newSymTable = NULL)
+        return NULL;
+
+    return newSymTable->pFirstBucket;
 }
    
 /*--------------------------------------------------------------------*/
@@ -96,6 +109,7 @@ SymTable_T SymTable_new(void){
     /* 509 elements for a new hash table */
     oSymTable->pFirstBucket = calloc(509, sizeof(struct SymTableBucket));
     if (oSymTable->pFirstBucket == NULL)
+        free(oSymTable);
         return NULL;
 
     oSymTable->size = 0;
@@ -123,6 +137,7 @@ void SymTable_free(SymTable_T oSymTable){
                 pCurrentNode = pNextNode)
             {
                 pNextNode = pCurrentNode->pNextNode;
+                free((void*)pCurrentNode->pKey);
                 free(pCurrentNode);
             }
         }
