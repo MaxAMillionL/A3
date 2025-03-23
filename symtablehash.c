@@ -109,14 +109,13 @@ void SymTable_free(SymTable_T oSymTable){
     struct SymTableBucket *pCurrentBucket;
     struct SymTableNode *pCurrentNode;
     struct SymTableNode *pNextNode;
+    size_t counter;
  
     assert(oSymTable != NULL);
 
-    for(pCurrentBucket = oSymTable->pFirstBucket;
-        (size_t)(pCurrentBucket - oSymTable->pFirstBucket) 
-        <= oSymTable->limit;
-        pCurrentBucket++)
-    {
+    counter = 0;
+    pCurrentBucket = oSymTable->pFirstBucket;
+    while(counter < oSymTable->limit){
         /* Free the linked list associated with the bucket*/
         if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
@@ -139,7 +138,12 @@ void SymTable_free(SymTable_T oSymTable){
         free(pCurrentBucket);
         printf("success\n");
         fflush(stdout);
+        
+        pCurrentBucket++;
+        counter++;
     }
+  
+        
 
     free(oSymTable);
 }
