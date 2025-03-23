@@ -244,11 +244,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     oSymTable->size++;
 
-    /* Resize if size exceeds limit, but only below maximum */
-    if(oSymTable->limit != 65521 && oSymTable->size > oSymTable->limit){
+    /* Resize if size exceeds limit, but only below maximum 
+    if(oSymTable->limit != 65521 && oSymTable->size >= oSymTable->limit){
         SymTable_resize(oSymTable);
     }
-
+*/
 
     return 1;
 }
