@@ -165,7 +165,12 @@ void SymTable_free(SymTable_T oSymTable){
                 pCurrentNode != NULL;
                 pCurrentNode = pNextNode)
             {
-                pNextNode = pCurrentNode->pNextNode;
+                if(pCurrentNode->pNextNode != NULL){
+                    pNextNode = pCurrentNode->pNextNode;
+                }
+                else{
+                    pNextNode = NULL;
+                }
                 free(pCurrentNode);
             }
         }
@@ -399,7 +404,12 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
                 pCurrentNode = pNextNode)
             {
                 (*pfApply)(pCurrentNode->pKey, (void*)pCurrentNode->pValue, (void*) pvExtra);
-                pNextNode = pCurrentNode->pNextNode;
+                if(pCurrentNode->pNextNode != NULL){
+                    pNextNode = pCurrentNode->pNextNode;
+                }
+                else{
+                    pNextNode = NULL;
+                }
             }
         }
         counter++;
