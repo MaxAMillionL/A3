@@ -165,12 +165,7 @@ void SymTable_free(SymTable_T oSymTable){
                 pCurrentNode != NULL;
                 pCurrentNode = pNextNode)
             {
-                if(pCurrentNode->pNextNode != NULL){
-                    pNextNode = pCurrentNode->pNextNode;
-                }
-                else{
-                    pNextNode = NULL;
-                }
+                pNextNode = pCurrentNode->pNextNode;
                 free(pCurrentNode);
             }
         }
@@ -234,6 +229,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
     pNewNode->pKey = pKey;
     pNewNode->pValue = pvValue;
+    pNewNode->pNextNode = NULL;
 
     /* Add node to first bucket if empty, or start of linked list otherwise */
     if(pbCurrent->pFirstBucketNode == NULL){
@@ -404,12 +400,7 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
                 pCurrentNode = pNextNode)
             {
                 (*pfApply)(pCurrentNode->pKey, (void*)pCurrentNode->pValue, (void*) pvExtra);
-                if(pCurrentNode->pNextNode != NULL){
-                    pNextNode = pCurrentNode->pNextNode;
-                }
-                else{
-                    pNextNode = NULL;
-                }
+                pNextNode = pCurrentNode->pNextNode;
             }
         }
         counter++;
