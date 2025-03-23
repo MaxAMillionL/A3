@@ -14,6 +14,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -127,7 +128,8 @@ void SymTable_free(SymTable_T oSymTable){
                 free(pCurrentNode);
             }
         }
-
+        printf("%zu", (size_t)pCurrentBucket);
+        fflush(stdout);
         free(pCurrentBucket);
     }
 
