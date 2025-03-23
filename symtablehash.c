@@ -115,6 +115,7 @@ static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
 
     newTableCurrentBucket = newSymTable->pFirstBucket;
     oldTableCurrentBucket = oSymTable->pFirstBucket;
+    counter = 0;
     while(counter < oldLimit){
         newTableCurrentBucket->pFirstBucketNode = oldTableCurrentBucket->pFirstBucketNode;
     }
