@@ -77,23 +77,53 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 
 static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
 {
-    size_t limit;
+    size_t oldLimit;
+    size_t newLimit;
+    size_t counter;
     int index;
     SymTable_T newSymTable;
+    struct SymTableBucket* oldTableCurrentBucket;
+    struct SymTableBucket* newTableCurrentBucket;
 
     assert(oSymTable != NULL);
     
     int sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
 
-    limit = oSymTable->limit;
-    while(limit != sizes[index]){
-        index++;
+    
+    oldLimit = oSymTable->limit;
+
+    /* Edge case for max size */
+    if(oldLimit == sizes[7]){
+        return oSymTable->pFirstBucket;
     }
 
-    newSymTable = (SymTable_T)realloc(oSymTable, sizes[index]);
-    if(newSymTable = NULL)
+    /* find new limit */
+    index = 0;
+    while(oldLimit >= sizes[index]){
+        index++;
+    }
+    newLimit = sizes[index + 1];
+
+    newSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
+    if (newSymTable == NULL)
+       return NULL;
+ 
+    /* newLimit elements for a new hash table */
+    newSymTable->pFirstBucket = calloc(newLimit, sizeof(struct SymTableBucket));
+    if (newSymTable->pFirstBucket == NULL)
+        free(newSymTable);
         return NULL;
 
+    newTableCurrentBucket = newSymTable->pFirstBucket;
+    oldTableCurrentBucket = oSymTable->pFirstBucket;
+    while(counter < oldLimit){
+        newTableCurrentBucket->pFirstBucketNode = oldTableCurrentBucket->pFirstBucketNode;
+    }
+
+    newSymTable->size = oSymTable->size;
+    newSymTable->limit = newLimit;
+
+    free(oSymTable);
     return newSymTable->pFirstBucket;
 }
    
