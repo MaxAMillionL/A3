@@ -131,6 +131,8 @@ void SymTable_free(SymTable_T oSymTable){
         printf("%zu", (size_t)pCurrentBucket);
         fflush(stdout);
         free(pCurrentBucket);
+        printf("success");
+        fflush(stdout);
     }
 
     free(oSymTable);
