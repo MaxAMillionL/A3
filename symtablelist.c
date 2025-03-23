@@ -104,6 +104,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         return 0;
     }
 
+    /* Defensive copy */
     strLength = strlen(pcKey) + 1;
     pKey = (char*) malloc(strLength * sizeof(char));
     if(pKey == NULL){
