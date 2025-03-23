@@ -123,7 +123,6 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
         counter++;
         nextOldTableCurrentBucket = oldTableCurrentBucket + 1;
         newTableCurrentBucket++;
-        free(oldTableCurrentBucket);
         oldTableCurrentBucket = nextOldTableCurrentBucket;
 
     }
