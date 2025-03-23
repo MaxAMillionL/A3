@@ -91,7 +91,7 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-
+None
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on symtablehash.c, and what are your
@@ -99,7 +99,11 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-
+It talks about the use of magic numbers for values relying on the max 
+number of buckets, but I give them varaible names and have no way
+of calculating the numbers in a more meaningful way. It also has the
+same concerns regarding asserts, which I explain in critter for 
+symtablelist.
 
 ------------------------------------------------------------------------
 What are the CPU times reported by testsymtable.c with binding counts

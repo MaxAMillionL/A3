@@ -132,7 +132,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
 SymTable_T SymTable_new(void){
     SymTable_T oSymTable;
-    int initialSize;
+    size_t initialSize;
 
     oSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
     if (oSymTable == NULL)
@@ -145,7 +145,7 @@ SymTable_T SymTable_new(void){
         return NULL;
 
     oSymTable->size = 0;
-    oSymTable->limit = 509;
+    oSymTable->limit = initialSize;
     return oSymTable;
 }
 
@@ -343,7 +343,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
         }
         pCurrentNode = pCurrentNode->pNextNode;
     }
-    return 0;
+    return NULL;
 }
 
 /*--------------------------------------------------------------------*/
