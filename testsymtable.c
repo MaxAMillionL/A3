@@ -175,6 +175,7 @@ static void testBasics(void)
    iFound = SymTable_contains(oSymTable, "Maris");
    ASSURE(! iFound);
 
+
    /* Test SymTable_get(). */
 
    pcValue = (char*)SymTable_get(oSymTable, acJeter);
@@ -195,6 +196,7 @@ static void testBasics(void)
    pcValue = (char*)SymTable_get(oSymTable, "Maris");
    ASSURE(pcValue == NULL);
    
+
    /* Test SymTable_replace(). */
 
    pcValue = (char*)
@@ -225,6 +227,7 @@ static void testBasics(void)
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 5);
 
+
    /* Try to insert duplicate of key that had NULL value */
    iSuccessful = SymTable_put(oSymTable, acBrown, acShortstop);
    ASSURE(! iSuccessful);
@@ -232,11 +235,10 @@ static void testBasics(void)
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 5);
 
+   
    /* Test SymTable_free(). */
 
    SymTable_free(oSymTable);
-   printf("Free works:\n");
-   fflush(stdout);
 }
 
 /*--------------------------------------------------------------------*/

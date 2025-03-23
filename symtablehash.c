@@ -117,7 +117,7 @@ void SymTable_free(SymTable_T oSymTable){
         pCurrentBucket++)
     {
         /* Free the linked list associated with the bucket*/
-        if(pCurrentBucket != NULL){
+        if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
                 pCurrentNode != NULL;
                 pCurrentNode = pNextNode)
@@ -349,7 +349,7 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)
         pCurrentBucket++)
     {
         /* Free the linked list associated with the bucket*/
-        if(pCurrentBucket != NULL){
+        if(pCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = pCurrentBucket->pFirstBucketNode;
                 pCurrentNode != NULL;
                 pCurrentNode++)
