@@ -73,9 +73,10 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 
 /*--------------------------------------------------------------------*/
 
-/* Resize the list of buckets in oSymTable to the next iteration. */
+/* Resize the list of oSymTable buckets in oSymTable to the next 
+   iteration. Returns the new SymTable. */
 
-static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
+static SymTable_T SymTable_resize(SymTable_T oSymTable)
 {
     size_t oldLimit;
     size_t newLimit;
@@ -91,7 +92,7 @@ static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
     oldLimit = oSymTable->limit;
 
     /* Edge case for max size */
-    if(oldLimit == sizes[7]){
+    if(oldLimit == sizes[sizeof(sizes)/sizeof(sizes[0])]){
         return oSymTable->pFirstBucket;
     }
 
@@ -122,22 +123,24 @@ static struct SymTableBucket* SymTable_resize(SymTable_T oSymTable)
 
     newSymTable->size = oSymTable->size;
     newSymTable->limit = newLimit;
-
     free(oSymTable);
-    return newSymTable->pFirstBucket;
+
+    return newSymTable;
 }
    
 /*--------------------------------------------------------------------*/
 
 SymTable_T SymTable_new(void){
     SymTable_T oSymTable;
+    int initialSize;
 
     oSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
     if (oSymTable == NULL)
        return NULL;
  
     /* 509 elements for a new hash table */
-    oSymTable->pFirstBucket = calloc(509, sizeof(struct SymTableBucket));
+    initialSize = 509;
+    oSymTable->pFirstBucket = calloc(initialSize, sizeof(struct SymTableBucket));
     if (oSymTable->pFirstBucket == NULL)
         return NULL;
 
@@ -197,6 +200,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     struct SymTableNode *pNewNode;
     struct SymTableNode *pOldNode;
     struct SymTableBucket *pbCurrent;
+    SymTable_T newSymTable;
+    int maxSize;
     
 
     assert(oSymTable != NULL);
@@ -243,8 +248,13 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     oSymTable->size++;
 
     /* Resize if size exceeds limit, but only below maximum */
-    if(oSymTable->limit != 65521 && oSymTable->size > oSymTable->limit){
-        SymTable_resize(oSymTable);
+    maxSize = 65521;
+    if(oSymTable->limit != maxSize && oSymTable->size > oSymTable->limit){
+        newSymTable = SymTable_resize(oSymTable);
+        if(newSymTable == NULL){
+            return 0;
+        }
+        oSymTable = newSymTable;
     }
 
 

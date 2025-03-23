@@ -22,15 +22,11 @@ Documents that are referenced directly by the course's website. Such documents i
 
 The course's textbooks and reference manuals.
 
-The man pages on the armlab cluster.
-
 The course's current staff members outside of class time through office hours.
 
 The course's current staff members outside of class time through meetings.
 
 The course's current staff members outside of class time through Ed.
-
-The course's current staff members outside of class time through e-mail.
 
 Current Intro Lab TAs through visits to the Intro COS Lab.
 
@@ -46,7 +42,7 @@ interaction, may additionally require the interaction being reported
 to the Committee on Discipline. Write "None" if you used no
 unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 In fulfillment of the requirement from section 2.4.3 of the Academic
@@ -55,13 +51,15 @@ enter your name in the space below the following affirmation:
 
 This paper represents my own work in accordance with University
 regulations.
-
+/s/ Maxwell Lloyd
 
 
 ------------------------------------------------------------------------
 What is your assessment of the assignment? Was it helpful? Was it fun?
 
-
+It was super helpful in figruing out memory allocation. I think the
+difficulty may be exaggerated as this is just a busy time of the
+semester. It was really fun and easy using Stack as a reference.
 
 ------------------------------------------------------------------------
 (optional) What information can you provide about your submission that
@@ -76,7 +74,7 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-
+None
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on symtablelist.c, and what are your
@@ -84,7 +82,8 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-
+It asks if I want to assert pvValue or pvExtra, which I do not because
+they are allowed to be NULL.
 
 ------------------------------------------------------------------------
 What warnings does splint generate on symtablehash.c, and what are your
