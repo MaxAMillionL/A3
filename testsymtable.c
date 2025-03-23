@@ -117,6 +117,7 @@ static void testBasics(void)
    ASSURE(oSymTable != NULL);
 
    printf("New Works");
+   fflush(stdout);
 
    /* Test SymTable_put() and SymTable_getLength(). */
 
@@ -145,6 +146,7 @@ static void testBasics(void)
    ASSURE(uLength == 4);
 
    printf("put and length works");
+   fflush(stdout);
 
    /* Try to insert duplicate to first key entered */
    iSuccessful = SymTable_put(oSymTable, acJeter, acCenterField);
@@ -154,6 +156,7 @@ static void testBasics(void)
    ASSURE(uLength == 4);
 
    printf("duplicate works");
+   fflush(stdout);
 
    /* Try to insert duplicate to last key entered */
    iSuccessful = SymTable_put(oSymTable, acRuth, acCenterField);
