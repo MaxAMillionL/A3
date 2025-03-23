@@ -81,9 +81,10 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     size_t oldLimit;
     size_t newLimit;
     size_t counter;
-    int index;
+    size_t index;
     SymTable_T newSymTable;
     struct SymTableBucket* oldTableCurrentBucket;
+    struct SymTableBucket* nextOldTableCurrentBucket;
     struct SymTableBucket* newTableCurrentBucket;
     size_t sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
 
@@ -98,7 +99,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     /* find new limit */
     index = 0;
-    while(oldLimit >= sizes[index]){
+    while(oldLimit > sizes[index]){
         index++;
     }
     newLimit = sizes[index + 1];
@@ -119,11 +120,16 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     counter = 0;
     while(counter < oldLimit){
         newTableCurrentBucket->pFirstBucketNode = oldTableCurrentBucket->pFirstBucketNode;
+        counter++;
+        nextOldTableCurrentBucket = oldTableCurrentBucket + 1;
+        newTableCurrentBucket++;
+        free(oldTableCurrentBucket);
+        oldTableCurrentBucket = nextOldTableCurrentBucket;
+
     }
 
     newSymTable->size = oSymTable->size;
     newSymTable->limit = newLimit;
-    free(oSymTable);
 
     return newSymTable;
 }
