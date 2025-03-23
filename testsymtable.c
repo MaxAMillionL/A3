@@ -114,24 +114,16 @@ static void testBasics(void)
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
 
-   printf("new works:\n");
-   fflush(stdout);
    /* Test SymTable_put() and SymTable_getLength(). */
 
    iSuccessful = SymTable_put(oSymTable, acJeter, acShortstop);
    ASSURE(iSuccessful);
 
-   printf("put works:\n");
-   fflush(stdout);
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 1);
-   printf("get works:\n");
-   fflush(stdout);
 
    iSuccessful = SymTable_put(oSymTable, acMantle, acCenterField);
    ASSURE(iSuccessful);
-   printf("put works again:\n");
-   fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
@@ -151,8 +143,6 @@ static void testBasics(void)
    /* Try to insert duplicate to first key entered */
    iSuccessful = SymTable_put(oSymTable, acJeter, acCenterField);
    ASSURE(! iSuccessful);
-   printf("dupe works:\n");
-   fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
@@ -169,8 +159,6 @@ static void testBasics(void)
 
    iFound = SymTable_contains(oSymTable, acJeter);
    ASSURE(iFound);
-   printf("contains works:\n");
-   fflush(stdout);
 
    iFound = SymTable_contains(oSymTable, acMantle);
    ASSURE(iFound);
@@ -186,15 +174,11 @@ static void testBasics(void)
 
    iFound = SymTable_contains(oSymTable, "Maris");
    ASSURE(! iFound);
-   printf("contains super works:\n");
-   fflush(stdout);
 
    /* Test SymTable_get(). */
 
    pcValue = (char*)SymTable_get(oSymTable, acJeter);
    ASSURE(pcValue == acShortstop);
-   printf("get works:\n");
-   fflush(stdout);
 
    pcValue = (char*)SymTable_get(oSymTable, acMantle);
    ASSURE(pcValue == acCenterField);
@@ -210,16 +194,12 @@ static void testBasics(void)
 
    pcValue = (char*)SymTable_get(oSymTable, "Maris");
    ASSURE(pcValue == NULL);
-   printf("get super works:\n");
-   fflush(stdout);
    
    /* Test SymTable_replace(). */
 
    pcValue = (char*)
       SymTable_replace(oSymTable, acMantle, acFirstBase);
    ASSURE(pcValue == acCenterField);
-   printf("replace works:\n");
-   fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
@@ -236,13 +216,13 @@ static void testBasics(void)
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
-   printf("replace super works:\n");
-   fflush(stdout);
 
 
    /* Insert key with NULL value */
    iSuccessful = SymTable_put(oSymTable, acBrown, NULL);
    ASSURE(iSuccessful);
+   printf("Null works:\n");
+   fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 5);
@@ -253,6 +233,8 @@ static void testBasics(void)
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 5);
+   printf("Null super works:\n");
+   fflush(stdout);
  
 
    /* Test SymTable_free(). */
