@@ -186,11 +186,15 @@ static void testBasics(void)
 
    iFound = SymTable_contains(oSymTable, "Maris");
    ASSURE(! iFound);
+   printf("contains super works:\n");
+   fflush(stdout);
 
    /* Test SymTable_get(). */
 
    pcValue = (char*)SymTable_get(oSymTable, acJeter);
    ASSURE(pcValue == acShortstop);
+   printf("get works:\n");
+   fflush(stdout);
 
    pcValue = (char*)SymTable_get(oSymTable, acMantle);
    ASSURE(pcValue == acCenterField);
@@ -206,12 +210,16 @@ static void testBasics(void)
 
    pcValue = (char*)SymTable_get(oSymTable, "Maris");
    ASSURE(pcValue == NULL);
+   printf("get super works:\n");
+   fflush(stdout);
    
    /* Test SymTable_replace(). */
 
    pcValue = (char*)
       SymTable_replace(oSymTable, acMantle, acFirstBase);
    ASSURE(pcValue == acCenterField);
+   printf("replace works:\n");
+   fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
@@ -228,6 +236,8 @@ static void testBasics(void)
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
+   printf("replace super works:\n");
+   fflush(stdout);
 
 
    /* Insert key with NULL value */
