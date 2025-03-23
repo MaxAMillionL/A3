@@ -87,7 +87,6 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     SymTable_T newSymTable;
     struct SymTableBucket* oldTableCurrentBucket;
     struct SymTableBucket* nextOldTableCurrentBucket;
-    struct SymTableBucket* newTableCurrentBucket;
     struct SymTableBucket* pbCurrent;
     struct SymTableNode* pCurrentNode;
     struct SymTableNode* pNextNode;
@@ -120,8 +119,8 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
         return NULL;
     }
 
-    newTableCurrentBucket = newSymTable->pFirstBucket;
     oldTableCurrentBucket = oSymTable->pFirstBucket;
+
     counter = 0;
     while(counter < oldLimit){
         /* all non empty buckets */
@@ -138,7 +137,6 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
                     pbCurrent++;
                 }
                 pbCurrent->pFirstBucketNode = pCurrentNode;
-                
             }
         }
         nextOldTableCurrentBucket = oldTableCurrentBucket + 1;
