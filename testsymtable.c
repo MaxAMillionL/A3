@@ -111,13 +111,8 @@ static void testBasics(void)
 
    /* Test SymTable_new(). */
 
-   printf("Trying new...");
-   fflush(stdout);
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
-
-   printf("New Works");
-   fflush(stdout);
 
    /* Test SymTable_put() and SymTable_getLength(). */
 
