@@ -263,7 +263,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (oSymTable->size > oSymTable->limit) {
         newSymTable = SymTable_resize(oSymTable);
         if (newSymTable) {
-            oSymTable = newSymTable;  // Update pointer after resize
+            oSymTable = newSymTable; 
         }
     }
     
