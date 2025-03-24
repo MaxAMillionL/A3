@@ -127,6 +127,8 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
                 pCurrentNode = pNextNode)
             {
                 pNextNode = pCurrentNode->pNextNode;
+                printf("%zu\n", counter);
+                fflush(stdout);
             }
         }
         oldTableCurrentBucket++;
