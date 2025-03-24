@@ -112,7 +112,7 @@ static int SymTable_resize(SymTable_T oSymTable)
     /* newLimit elements for a new hash table */
     newBucket = calloc(newLimit, sizeof(struct SymTableBucket));
     if (newBucket == NULL){
-        return NULL;
+        return 0;
     }
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
@@ -268,7 +268,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if(oSymTable->limit != buckets[sizeof(buckets)/sizeof(buckets[0]) - 1] && oSymTable->size > oSymTable->limit){
         success = SymTable_resize(oSymTable);
         if(success == 0){
-            return NULL;
+            return 0;
         }
     }
 
