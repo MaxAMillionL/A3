@@ -266,14 +266,14 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
     /* Resize if size exceeds limit, but only below maximum */
     
-    /*
+
     if(oSymTable->limit != buckets[sizeof(buckets)/sizeof(buckets[0]) - 1] && oSymTable->size > oSymTable->limit){
         success = SymTable_resize(oSymTable);
         if(success == 0){
             return 0;
         }
     }
-*/
+
 
     return 1;
 }
