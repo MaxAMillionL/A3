@@ -84,7 +84,6 @@ static int SymTable_resize(SymTable_T oSymTable)
     size_t newLimit;
     size_t index;
     size_t counter;
-    size_t bucketNumber;
     struct SymTableBucket* oldTableCurrentBucket;
     struct SymTableBucket* pbCurrent;
     struct SymTableBucket* newBucket;
@@ -271,9 +270,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     
     if(oSymTable->limit != buckets[sizeof(buckets)/sizeof(buckets[0])] && oSymTable->size > oSymTable->limit){
         success = SymTable_resize(oSymTable);
+        printf("Working...");
+        fflush(stdout);
         if(success == 0){
             return 0;
         }
+        
         printf("Limit: %zu\n", oSymTable->limit);
         printf("Size: %zu\n", oSymTable->size);
         fflush(stdout);
