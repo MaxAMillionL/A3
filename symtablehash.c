@@ -269,6 +269,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     
     maxSize = 65521;
     if(oSymTable->limit != maxSize && oSymTable->size > oSymTable->limit){
+        printf("size: %zu", oSymTable->size);
+        printf("limit: %zu", oSymTable->limit);
         newSymTable = SymTable_resize(oSymTable);
         if(newSymTable == NULL){
             return 0;
