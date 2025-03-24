@@ -144,7 +144,7 @@ static int SymTable_resize(SymTable_T oSymTable)
 
     free(oSymTable->pFirstBucket);
 
-    printf("yo mama")
+    printf("yo mama");
     fflush(stdout);
     oSymTable->limit = newLimit;
     oSymTable->pFirstBucket = newBucket;
