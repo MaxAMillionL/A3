@@ -107,8 +107,6 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
         index++;
     }
     newLimit = sizes[index + 1];
-    printf("%zu\n", newLimit);
-    fflush(stdout);
 
     newSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
     if (newSymTable == NULL)
@@ -142,10 +140,10 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
             }
         }
         nextOldTableCurrentBucket = oldTableCurrentBucket + 1;
-        free(oldTableCurrentBucket);
         oldTableCurrentBucket = nextOldTableCurrentBucket;
         counter++;
     }
+    free(oSymTable->pFirstBucket);
 
     newSymTable->size = oSymTable->size;
     newSymTable->limit = newLimit;
