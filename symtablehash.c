@@ -16,6 +16,8 @@
 #include <string.h>
 #include "symtable.h"
 
+static const size_t buckets[] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
+
 /*--------------------------------------------------------------------*/
 
 /* Each item is stored in a SymTableNode to form a linked list */
@@ -75,37 +77,36 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /* Resize the list of oSymTable buckets in oSymTable to the next 
    iteration. Returns the new SymTable. */
 
-static SymTable_T SymTable_resize(SymTable_T oSymTable)
+static int SymTable_resize(SymTable_T oSymTable)
 {
     size_t oldLimit;
     size_t newLimit;
     size_t index;
     size_t counter;
     size_t bucketNumber;
-    SymTable_T newSymTable;
     struct SymTableBucket* oldTableCurrentBucket;
     struct SymTableBucket* pbCurrent;
     struct SymTableBucket* newBucket;
     struct SymTableNode* pCurrentNode;
     struct SymTableNode* pOldNode;
     struct SymTableNode* pNextNode;
-    size_t sizes[8] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
+    
 
     assert(oSymTable != NULL);
     
     oldLimit = oSymTable->limit;
 
     /* Edge case for max size */
-    if(oldLimit == sizes[sizeof(sizes)/sizeof(sizes[0])]){
+    if(oldLimit == buckets[sizeof(buckets)/sizeof(buckets[0])]){
         return oSymTable;
     }
 
     /* find new limit */
     index = 0;
-    while(oldLimit > sizes[index]){
+    while(oldLimit > buckets[index]){
         index++;
     }
-    newLimit = sizes[index + 1];
+    newLimit = buckets[index + 1];
 
  
     /* newLimit elements for a new hash table */
@@ -143,6 +144,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     free(oSymTable->pFirstBucket);
 
     oSymTable->limit = newLimit;
+    oSymTable->pFirstBucket = newBucket;
 
     return oSymTable;
 }
@@ -151,20 +153,18 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
 SymTable_T SymTable_new(void){
     SymTable_T oSymTable;
-    size_t initialSize;
 
     oSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
     if (oSymTable == NULL)
        return NULL;
  
     /* 509 elements for a new hash table */
-    initialSize = 509;
-    oSymTable->pFirstBucket = calloc(initialSize, sizeof(struct SymTableBucket));
+    oSymTable->pFirstBucket = calloc(buckets[0], sizeof(struct SymTableBucket));
     if (oSymTable->pFirstBucket == NULL)
         return NULL;
 
     oSymTable->size = 0;
-    oSymTable->limit = initialSize;
+    oSymTable->limit = buckets[0];
     return oSymTable;
 }
 
@@ -214,14 +214,12 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue){
     char *pKey;
+    int success;
     size_t bucketNumber;
     size_t strLength;
     struct SymTableNode *pNewNode;
     struct SymTableNode *pOldNode;
-    struct SymTableBucket *pbCurrent;
-    /*SymTable_T newSymTable;
-    size_t maxSize;*/
-    
+    struct SymTableBucket *pbCurrent;    
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -268,18 +266,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
     /* Resize if size exceeds limit, but only below maximum */
     
-    /*
-    maxSize = 65521;
-    if(oSymTable->limit != maxSize && oSymTable->size > oSymTable->limit){
-        printf("size: %zu", oSymTable->size);
-        printf("limit: %zu", oSymTable->limit);
-        oSymTable = SymTable_resize(oSymTable);
-        if(oSymTable == NULL){
+    if(oSymTable->limit != buckets[sizeof(buckets)/sizeof(buckets[0])] && oSymTable->size > oSymTable->limit){
+        success = resize(oSymTable);
+        if(success == 0){
             return 0;
         }
-        oSymTable = newSymTable;
     }
-    */
 
 
     return 1;
