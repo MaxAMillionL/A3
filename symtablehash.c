@@ -112,7 +112,7 @@ static int SymTable_resize(SymTable_T oSymTable)
     /* newLimit elements for a new hash table */
     newBucket = calloc(newLimit, sizeof(struct SymTableBucket));
     if (newBucket == NULL){
-        return NULL;
+        return 0;
     }
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
@@ -146,7 +146,7 @@ static int SymTable_resize(SymTable_T oSymTable)
     oSymTable->limit = newLimit;
     oSymTable->pFirstBucket = newBucket;
 
-    return oSymTable;
+    return 1;
 }
    
 /*--------------------------------------------------------------------*/
