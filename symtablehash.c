@@ -14,6 +14,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "symtable.h"
 
 static const size_t buckets[] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
@@ -127,8 +128,11 @@ static int SymTable_resize(SymTable_T oSymTable)
                 pCurrentNode = pNextNode)
             {
                 pNextNode = pCurrentNode->pNextNode;
-                bucketNumber = SymTable_hash(pCurrentNode->pKey, newLimit);
-                pbCurrent = &newBucket[bucketNumber];
+
+                /* finds the position of the new bucket */
+                pbCurrent = &newBucket[
+                    SymTable_hash(pCurrentNode->pKey, newLimit)
+                ];
 
                 pOldNode = pbCurrent->pFirstBucketNode;
                 pbCurrent->pFirstBucketNode = pCurrentNode;
@@ -270,6 +274,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         if(success == 0){
             return 0;
         }
+        printf("Limit: %zu\n", oSymTable->limit);
+        printf("Size: %zu\n", oSymTable->size);
+        fflush(stdout);
     }
 
 
