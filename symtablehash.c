@@ -246,10 +246,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
     /* Find position of the bucket assocaited with the hash */
     bucketNumber = SymTable_hash(pKey, oSymTable->limit);
-    pbCurrent = oSymTable->pFirstBucket;
-    while((size_t)(pbCurrent - oSymTable->pFirstBucket) != bucketNumber){
-        pbCurrent++;
-    }
+    pbCurrent = &oSymTable->pFirstBucket[bucketNumber];
 
     pNewNode->pKey = pKey;
     pNewNode->pValue = pvValue;
@@ -300,10 +297,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
     /* Find position of the bucket assocaited with the hash */
     bucketNumber = SymTable_hash(pcKey, oSymTable->limit);
-    pbCurrent = oSymTable->pFirstBucket;
-    while((size_t)(pbCurrent - oSymTable->pFirstBucket) != bucketNumber){
-        pbCurrent++;
-    }
+    pbCurrent = &oSymTable->pFirstBucket[bucketNumber];
 
     pCurrentNode = pbCurrent->pFirstBucketNode;
     while(pCurrentNode != NULL){
@@ -329,10 +323,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
     /* Find position of the bucket assocaited with the hash */
     bucketNumber = SymTable_hash(pcKey, oSymTable->limit);
-    pbCurrent = oSymTable->pFirstBucket;
-    while((size_t)(pbCurrent - oSymTable->pFirstBucket) != bucketNumber){
-        pbCurrent++;
-    }
+    pbCurrent = &oSymTable->pFirstBucket[bucketNumber];
 
     pCurrentNode = pbCurrent->pFirstBucketNode;
     while(pCurrentNode != NULL){
@@ -356,10 +347,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 
     /* Find position of the bucket assocaited with the hash */
     bucketNumber = SymTable_hash(pcKey, oSymTable->limit);
-    pbCurrent = oSymTable->pFirstBucket;
-    while((size_t)(pbCurrent - oSymTable->pFirstBucket) != bucketNumber){
-        pbCurrent++;
-    }
+    pbCurrent = &oSymTable->pFirstBucket[bucketNumber];
 
     pCurrentNode = pbCurrent->pFirstBucketNode;
     while(pCurrentNode != NULL){
@@ -385,10 +373,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
     /* Find position of the bucket assocaited with the hash */
     bucketNumber = SymTable_hash(pcKey, oSymTable->limit);
-    pbCurrent = oSymTable->pFirstBucket;
-    while((size_t)(pbCurrent - oSymTable->pFirstBucket) != bucketNumber){
-        pbCurrent++;
-    }
+    pbCurrent = &oSymTable->pFirstBucket[bucketNumber];
 
     pCurrentNode = pbCurrent->pFirstBucketNode;
     pPrevNode = NULL;
