@@ -86,6 +86,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     SymTable_T newSymTable;
     struct SymTableBucket* oldTableCurrentBucket;
     struct SymTableBucket* pbCurrent;
+    struct SymTableBucket* newBucket;
     struct SymTableNode* pCurrentNode;
     struct SymTableNode* pOldNode;
     struct SymTableNode* pNextNode;
@@ -107,14 +108,10 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     }
     newLimit = sizes[index + 1];
 
-    newSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
-    if (newSymTable == NULL)
-       return NULL;
  
     /* newLimit elements for a new hash table */
-    newSymTable->pFirstBucket = calloc(newLimit, sizeof(struct SymTableBucket));
-    if (newSymTable->pFirstBucket == NULL){
-        free(newSymTable);
+    newBucket = calloc(newLimit, sizeof(struct SymTableBucket));
+    if (newBucket == NULL){
         return NULL;
     }
 
@@ -122,28 +119,35 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     printf("OldLimit: %zu\n", oldLimit);
     printf("newLimit: %zu\n", newLimit);
-    for(counter = 0; counter < oldLimit; counter++){
+    counter = 0;
+    while(counter < oldLimit){
+        /* all non empty buckets */
         if(oldTableCurrentBucket->pFirstBucketNode != NULL){
+            /* rewire their nodes */
             for (pCurrentNode = oldTableCurrentBucket->pFirstBucketNode;
                 pCurrentNode != NULL;
                 pCurrentNode = pNextNode)
             {
-                printf("Counter: %zu\n", counter);
-                fflush(stdout);
-                pNextNode = pCurrentNode->pNextNode;   
+                pNextNode = pCurrentNode->pNextNode;
+                bucketNumber = SymTable_hash(pCurrentNode->pKey, newLimit);
+                pbCurrent = &newBucket[bucketNumber];
+
+                pOldNode = pbCurrent->pFirstBucketNode;
+                pbCurrent->pFirstBucketNode = pCurrentNode;
+                pCurrentNode->pNextNode = pOldNode;
             }
         }
         oldTableCurrentBucket++;
+        counter++;
     }
 
     
 
     free(oSymTable->pFirstBucket);
 
-    newSymTable->size = oSymTable->size;
-    newSymTable->limit = newLimit;
+    oSymTable->limit = newLimit;
 
-    return newSymTable;
+    return oSymTable;
 }
    
 /*--------------------------------------------------------------------*/
