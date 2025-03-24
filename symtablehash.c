@@ -76,7 +76,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /*--------------------------------------------------------------------*/
 
 /* Resize the list of oSymTable buckets in oSymTable to the next 
-   iteration. Returns the new SymTable. */
+   iteration. Returns the 1 for success, 0 for failure. */
 
 static int SymTable_resize(SymTable_T oSymTable)
 {
@@ -112,7 +112,7 @@ static int SymTable_resize(SymTable_T oSymTable)
     /* newLimit elements for a new hash table */
     newBucket = calloc(newLimit, sizeof(struct SymTableBucket));
     if (newBucket == NULL){
-        return 0;
+        return NULL;
     }
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
@@ -266,17 +266,10 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     /* Resize if size exceeds limit, but only below maximum */
     
     if(oSymTable->limit != buckets[sizeof(buckets)/sizeof(buckets[0]) - 1] && oSymTable->size > oSymTable->limit){
-        printf("Working...");
-        fflush(stdout);
         success = SymTable_resize(oSymTable);
-        
         if(success == 0){
-            return ;
+            return NULL;
         }
-        
-        printf("Limit: %zu\n", oSymTable->limit);
-        printf("Size: %zu\n", oSymTable->size);
-        fflush(stdout);
     }
 
 
