@@ -120,6 +120,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
 
+    printf("%zu", oldLimit);
     for(counter = 0; counter < oldLimit; counter++){
         if(oldTableCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = oldTableCurrentBucket->pFirstBucketNode;
@@ -133,6 +134,8 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
         }
         oldTableCurrentBucket++;
     }
+
+    
 
     free(oSymTable->pFirstBucket);
 
