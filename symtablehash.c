@@ -89,7 +89,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     oldLimit = oSymTable->limit;
     if (oldLimit == sizes[sizeof(sizes) / sizeof(sizes[0]) - 1]) {
-        return oSymTable;  // Max size reached, no expansion
+        return oSymTable; 
     }
 
     /* Find next size */
@@ -120,7 +120,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
             pCurrentNode != NULL; 
             pCurrentNode = pNextNode) 
         {
-            pNextNode = pCurrentNode->pNextNode;  // Save next before reassigning
+            pNextNode = pCurrentNode->pNextNode;
 
             /* Find new bucket */
             bucketNumber = SymTable_hash(pCurrentNode->pKey, newLimit);
