@@ -81,7 +81,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
     size_t oldLimit;
     size_t newLimit;
     size_t index;
-    
+    size_t counter;
     size_t bucketNumber;
     SymTable_T newSymTable;
     struct SymTableBucket* oldTableCurrentBucket;
@@ -120,7 +120,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
 
-    for(size_t counter = 0; counter < oldLimit; counter++){
+    for(counter = 0; counter < oldLimit; counter++){
         if(oldTableCurrentBucket->pFirstBucketNode != NULL){
             for (pCurrentNode = oldTableCurrentBucket->pFirstBucketNode;
                 pCurrentNode != NULL;
