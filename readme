@@ -99,11 +99,8 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-It talks about the use of magic numbers for values relying on the max 
-number of buckets, but I give them varaible names and have no way
-of calculating the numbers in a more meaningful way. It also has the
-same concerns regarding asserts, which I explain in critter for 
-symtablelist.
+It has the same warnings as the list implementation, which I do not
+agree with because these values are allowed to be NULL.
 
 ------------------------------------------------------------------------
 What are the CPU times reported by testsymtable.c with binding counts
