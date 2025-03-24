@@ -275,6 +275,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if(oSymTable->limit != maxSize && oSymTable->size > oSymTable->limit){
         newSymTable = SymTable_resize(oSymTable);
         if(newSymTable == NULL){
+            free(pKey);
+            free(pNewNode);
             return 0;
         }
         oSymTable = newSymTable;
