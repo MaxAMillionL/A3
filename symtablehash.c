@@ -107,6 +107,8 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
         index++;
     }
     newLimit = sizes[index + 1];
+    printf("$zu", newLimit);
+    fflush(stdout);
 
     newSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
     if (newSymTable == NULL)
@@ -271,7 +273,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     oSymTable->size++;
 
     /* Resize if size exceeds limit, but only below maximum */
-    /*
+    
     maxSize = 65521;
     if(oSymTable->limit != maxSize && oSymTable->size > oSymTable->limit){
         newSymTable = SymTable_resize(oSymTable);
@@ -282,7 +284,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         }
         oSymTable = newSymTable;
     }
-        */
+    
 
 
     return 1;
