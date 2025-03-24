@@ -107,7 +107,7 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
         index++;
     }
     newLimit = sizes[index + 1];
-    printf("$zu", newLimit);
+    printf("%zu\n", newLimit);
     fflush(stdout);
 
     newSymTable = (SymTable_T)malloc(sizeof(struct SymTable));
