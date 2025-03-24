@@ -121,40 +121,37 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
 
-    counter = 0;
-    while(counter < oldLimit){
-        /* all non empty buckets */
-        if(oldTableCurrentBucket->pFirstBucketNode != NULL){
-            /* rewire their nodes */
-            for (pCurrentNode = oldTableCurrentBucket->pFirstBucketNode;
-                pCurrentNode != NULL;
-                pCurrentNode = pNextNode)
-            {
-                pNextNode = pCurrentNode->pNextNode;
-                bucketNumber = SymTable_hash(pCurrentNode->pKey, newLimit);
-                pbCurrent = newSymTable->pFirstBucket;
-                while((size_t)(pbCurrent - newSymTable->pFirstBucket) != bucketNumber){
-                    pbCurrent++;
-                }
-                pbCurrent->pFirstBucketNode = pCurrentNode;
+    /* Transfer nodes from old table */
+    for (counter = 0; counter < oldLimit; counter++) {
+        oldTableCurrentBucket = &oSymTable->pFirstBucket[counter];
 
-                if(pbCurrent->pFirstBucketNode == NULL){
-                    pbCurrent->pFirstBucketNode = pCurrentNode;
-                }
-                else{
-                    pOldNode = pbCurrent->pFirstBucketNode;
-                    pbCurrent->pFirstBucketNode = pCurrentNode;
-                    pCurrentNode->pNextNode = pOldNode;
-                }
-            }
+        /* Only process non-empty buckets */
+        pCurrentNode = oldTableCurrentBucket->pFirstBucketNode;
+        while (pCurrentNode != NULL) {
+            pNextNode = pCurrentNode->pNextNode; /* Store next node before modification */
+
+            /* Compute new bucket */
+            bucketNumber = SymTable_hash(pCurrentNode->pKey, newLimit);
+            struct SymTableBucket* pbCurrent = &newSymTable->pFirstBucket[bucketNumber];
+
+            /* Insert at head of new bucket */
+            pCurrentNode->pNextNode = pbCurrent->pFirstBucketNode;
+            pbCurrent->pFirstBucketNode = pCurrentNode;
+
+            /* Move to next node */
+            pCurrentNode = pNextNode;
         }
-        oldTableCurrentBucket++;
-        counter++;
     }
+
+    /* Free old bucket array */
     free(oSymTable->pFirstBucket);
 
+    /* Copy attributes */
     newSymTable->size = oSymTable->size;
     newSymTable->limit = newLimit;
+
+    /* Free the old symtable structure */
+    free(oSymTable);
 
     return newSymTable;
 }
@@ -284,8 +281,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if(oSymTable->limit != maxSize && oSymTable->size > oSymTable->limit){
         newSymTable = SymTable_resize(oSymTable);
         if(newSymTable == NULL){
-            free(pKey);
-            free(pNewNode);
             return 0;
         }
         oSymTable = newSymTable;
