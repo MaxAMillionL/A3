@@ -14,7 +14,6 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "symtable.h"
 
 static const size_t buckets[] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
@@ -143,9 +142,6 @@ static int SymTable_resize(SymTable_T oSymTable)
     
 
     free(oSymTable->pFirstBucket);
-
-    printf("yo mama");
-    fflush(stdout);
     oSymTable->limit = newLimit;
     oSymTable->pFirstBucket = newBucket;
 
