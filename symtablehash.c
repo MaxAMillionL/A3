@@ -98,7 +98,7 @@ static int SymTable_resize(SymTable_T oSymTable)
 
     /* Edge case for max size */
     if(oldLimit == buckets[sizeof(buckets)/sizeof(buckets[0])]){
-        return oSymTable;
+        return 1;
     }
 
     /* find new limit */
@@ -267,7 +267,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     /* Resize if size exceeds limit, but only below maximum */
     
     if(oSymTable->limit != buckets[sizeof(buckets)/sizeof(buckets[0])] && oSymTable->size > oSymTable->limit){
-        success = resize(oSymTable);
+        success = SymTable_resize(oSymTable);
         if(success == 0){
             return 0;
         }
