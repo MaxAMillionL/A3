@@ -14,7 +14,6 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -117,8 +116,6 @@ static SymTable_T SymTable_resize(SymTable_T oSymTable)
 
     oldTableCurrentBucket = oSymTable->pFirstBucket;
 
-    printf("OldLimit: %zu\n", oldLimit);
-    printf("newLimit: %zu\n", newLimit);
     counter = 0;
     while(counter < oldLimit){
         /* all non empty buckets */
@@ -222,8 +219,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     struct SymTableNode *pNewNode;
     struct SymTableNode *pOldNode;
     struct SymTableBucket *pbCurrent;
-    SymTable_T newSymTable;
-    size_t maxSize;
+    /*SymTable_T newSymTable;
+    size_t maxSize;*/
     
 
     assert(oSymTable != NULL);
